@@ -1,0 +1,242 @@
+<!DOCTYPE html> 
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formatura 1º Ano - Traços & Letras</title>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --white:rgba(255,255,255,.95);
+  --glow:0 0 20px rgba(255,255,255,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:black;
+  overflow:hidden;
+}
+.screen{position:fixed;inset:0;background:black}
+
+/* FUNDO */
+.hero{position:absolute;inset:0;overflow:hidden}
+.hero img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) brightness(.6) blur(2px);
+  transform:scale(1.15);
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.92));
+}
+
+/* TÍTULO */
+.stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;color:var(--white);z-index:10;
+}
+.title{
+  font-size:5vw;font-weight:900;letter-spacing:7px;
+  text-shadow:var(--glow)
+}
+.subtitle{
+  font-size:1.5vw;margin-top:18px;
+  letter-spacing:3px;
+}
+
+/* FRASES */
+.quote{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+  font-size:2.3vw;
+  font-weight:600;
+  padding:10%;
+  opacity:0;
+  z-index:9999;
+  background:rgba(0,0,0,.35);
+  pointer-events:none;
+}
+.credit{
+  position: fixed;
+  bottom: 6px;
+  right: 10px;
+  font-size: 10px;
+  color: rgba(255,255,255,.45);
+  letter-spacing: 1px;
+  font-weight: 500;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+/* GALERIA */
+.gallery{
+  position:absolute;inset:0;
+  display:flex;justify-content:center;align-items:center;
+  opacity:0;
+}
+.gallery img{
+  position:absolute;
+  max-width:72%;max-height:72%;
+  border-radius:18px;
+  box-shadow:0 25px 90px rgba(0,0,0,.9);
+  opacity:0;
+  filter:blur(10px);
+  transform:scale(1.06);
+}
+
+/* BOTÃO */
+.controls{position:absolute;bottom:25px;right:25px;z-index:99;}
+button{
+  background:rgba(255,255,255,.1);
+  border:none;color:white;
+  padding:12px 20px;border-radius:30px;
+  cursor:pointer;
+}
+button:hover{background:rgba(255,255,255,.3)}
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+<div class="hero">
+<img id="heroImage" src="https://static.wixstatic.com/media/21f098_ba73c07766be4361adf41b2e16be1435~mv2.png">
+</div>
+
+<div class="stage">
+<div class="title">FORMATURA 1º ANO - 2025</div>
+<div class="subtitle">Escola Traços & Letras • Um futuro começa aqui</div>
+</div>
+
+<div class="quote" id="quote"></div>
+
+<div class="gallery" id="gallery">
+
+<img src="img/1.jpeg"><img src="img/2.jpeg"><img src="img/3.jpeg"><img src="img/4.jpeg"><img src="img/5.jpeg">
+<img src="img/6.jpeg"><img src="img/7.jpeg"><img src="img/8.jpeg"><img src="img/9.jpeg"><img src="img/10.jpeg">
+<img src="img/11.jpeg"><img src="img/12.jpeg"><img src="img/13.jpeg"><img src="img/14.jpeg"><img src="img/15.jpeg">
+<img src="img/16.jpeg"><img src="img/17.jpeg"><img src="img/18.jpeg"><img src="img/19.jpeg"><img src="img/20.jpeg">
+<img src="img/21.jpeg"><img src="img/22.jpeg"><img src="img/23.jpeg"><img src="img/24.jpeg"><img src="img/25.jpeg">
+<img src="img/26.jpeg"><img src="img/27.jpeg"><img src="img/28.jpeg"><img src="img/29.jpeg"><img src="img/30.jpeg">
+<img src="img/31.jpeg"><img src="img/32.jpeg"><img src="img/33.jpeg"><img src="img/34.jpeg"><img src="img/35.jpeg">
+<img src="img/36.jpeg"><img src="img/37.jpeg"><img src="img/38.jpeg"><img src="img/39.jpeg"><img src="img/40.jpeg">
+<img src="img/41.jpeg"><img src="img/42.jpeg"><img src="img/43.jpeg"><img src="img/44.jpeg"><img src="img/45.jpeg">
+<img src="img/46.jpeg"><img src="img/47.jpeg"><img src="img/48.jpeg"><img src="img/49.jpeg"><img src="img/50.jpeg">
+<img src="img/51.jpeg"><img src="img/52.jpeg"><img src="img/53.jpeg"><img src="img/54.jpeg"><img src="img/55.jpeg">
+<img src="img/56.jpeg"><img src="img/57.jpeg"><img src="img/58.jpeg"><img src="img/59.jpeg">
+
+</div>
+
+<div class="controls">
+<button id="toggle">⏸ Pausar</button>
+</div>
+
+</div>
+
+<script>
+const quotes = [
+"Cada sorriso conta uma história.","Aqui nascem grandes sonhos.","O futuro começa com pequenos passos.",
+"Aprender é uma aventura diária.","Toda criança é uma promessa.","Crescer também é aprender.",
+"A educação abre asas.","Aqui florescem os sonhos.","Ensinar é cuidar do amanhã.",
+"O conhecimento ilumina caminhos.","Pequenos passos, grandes conquistas.","Aqui começa uma linda jornada.",
+"O brilho no olhar diz tudo.","Cada dia é um novo aprendizado.","Educar é plantar esperança.",
+"Uma infância feliz constrói o amanhã.","Sonhar também é aprender.","Todo futuro começa aqui.",
+"Pequenos gestos, grandes histórias.","A educação muda destinos.","Aprender é descobrir o mundo.",
+"Cultivando saberes e sonhos.","O primeiro passo nunca se esquece.","Cada criança é única.",
+"Aqui se constrói esperança.","A infância é um tesouro.","Crescer é aprender a voar.",
+"Aqui nascem possibilidades.","O sonho começa na sala de aula.","Aprender é um ato de amor.",
+"O futuro sorri para quem aprende.","A educação transforma vidas.","Cada sorriso é uma conquista.",
+"O amanhã começa hoje.","Aqui se escreve o futuro.","A infância é feita de sonhos.",
+"A educação constrói pontes.","Tudo começa com um sonho.","O saber cresce com carinho.",
+"Aqui nasce o amanhã.","Aprendendo com alegria.","O futuro começa aqui.",
+"Sementes de um futuro melhor.","Educar é semear amor.","Aqui brotam grandes histórias.",
+"Pequenos sonhos, grandes futuros.","A aprendizagem liberta.","Crescer com amor e saber.",
+"Aqui se cultiva o amanhã.","O saber transforma.","Sorrisos que iluminam caminhos.",
+"A educação inspira voos.","Cada conquista é um começo.",
+"Aqui se realizam sonhos.","O futuro floresce aqui.",
+"A infância constrói o amanhã.","O aprendizado é eterno.",
+"Aqui começa o para sempre"
+];
+
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const tl = gsap.timeline({repeat:-1});
+const title = document.querySelector(".title");
+const subtitle = document.querySelector(".subtitle");
+const photos = document.querySelectorAll(".gallery img");
+const gallery = document.getElementById("gallery");
+const quoteBox = document.getElementById("quote");
+const hero = document.getElementById("heroImage");
+
+let playing = true;
+
+// FUNDO ANIMADO
+gsap.to(hero,{scale:1.2,duration:40,yoyo:true,repeat:-1,ease:"sine.inOut"});
+
+// INTRO
+tl.fromTo(title,{y:30,opacity:0},{opacity:1,y:0,duration:2});
+tl.fromTo(subtitle,{opacity:0},{opacity:1,duration:2},"-=1");
+tl.to({}, {duration:4});
+tl.to([title,subtitle],{opacity:0,y:-15,duration:1});
+
+// MOSTRA GALERIA
+tl.to(gallery,{opacity:1,duration:1});
+
+// GALERIA + FRASE APÓS CADA FOTO
+photos.forEach((img,i)=>{
+
+  const x = gsap.utils.random(-40,40);
+  const y = gsap.utils.random(-30,30);
+
+  // IMAGEM ENTRA
+  tl.fromTo(img,
+    {opacity:0,scale:1.12,filter:"blur(15px)",x,y},
+    {opacity:1,scale:1,filter:"blur(0)",x:0,y:0,duration:2}
+  );
+
+  tl.to({}, {duration:2.2});
+
+  // IMAGEM SOME
+  tl.to(img,{opacity:0,scale:1.05,filter:"blur(10px)",duration:1});
+
+  // FRASE APÓS FOTO
+  const phraseIndex = i % quotes.length;
+
+  tl.call(()=>{
+    quoteBox.innerText = quotes[phraseIndex];
+  });
+
+  tl.fromTo(quoteBox,{opacity:0,scale:.95},{opacity:1,scale:1,duration:.8});
+  tl.to({}, {duration:2.8});
+  tl.to(quoteBox,{opacity:0,scale:1.05,duration:.8});
+
+});
+
+tl.to(gallery,{opacity:0,duration:1});
+tl.set(photos,{opacity:0});
+
+// BOTÃO PAUSE
+document.getElementById("toggle").onclick = ()=>{
+  playing ? tl.pause() : tl.play();
+  playing = !playing;
+  document.getElementById("toggle").innerText = playing ? "⏸ Pausar" : "▶ Continuar";
+};
+
+
+});
+</script>
+<div class="credit">desenvolvido por Nay Cordeiro</div>
+</body>
+</html>
